@@ -20,12 +20,12 @@ export default function Navbar({ userRole, userName, onLogout }: NavbarProps) {
 
         <div className="navbar-links">
           <Link to="/vocabulary" className="nav-link">
-            Vocabulary
+            Vocabulario
           </Link>
 
           {userRole && (
             <Link to="/assignments" className="nav-link">
-              {userRole === 'teacher' ? 'Assignments' : 'My Tasks'}
+              {userRole === 'teacher' ? 'Tareas' : 'Mis Tareas'}
             </Link>
           )}
 
@@ -35,10 +35,10 @@ export default function Navbar({ userRole, userName, onLogout }: NavbarProps) {
                 Flashcards
               </Link>
               <Link to="/games" className="nav-link">
-                Games
+                Juegos
               </Link>
               <Link to="/progress" className="nav-link">
-                My Progress
+                Mi Progreso
               </Link>
             </>
           )}
@@ -46,10 +46,10 @@ export default function Navbar({ userRole, userName, onLogout }: NavbarProps) {
           {userRole === 'teacher' && (
             <>
               <Link to="/manage" className="nav-link">
-                Manage Vocab
+                Gestionar Vocab
               </Link>
               <Link to="/manage-users" className="nav-link">
-                Manage Users
+                Gestionar Usuarios
               </Link>
               <Link to="/analytics" className="nav-link">
                 Analytics
@@ -62,17 +62,17 @@ export default function Navbar({ userRole, userName, onLogout }: NavbarProps) {
           {userName ? (
             <>
               <span className="user-name">
-                {userName} ({userRole})
+                {userName} ({userRole === 'teacher' ? 'Profesora' : 'Estudiante'})
               </span>
               {onLogout && (
                 <button onClick={onLogout} className="btn-logout">
-                  Logout
+                  Salir
                 </button>
               )}
             </>
           ) : (
-            <Link to="/login" className="btn-primary">
-              Login
+            <Link to="/login" className="btn btn-primary">
+              Iniciar Sesión
             </Link>
           )}
         </div>
