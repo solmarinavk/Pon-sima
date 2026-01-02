@@ -6,7 +6,10 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import vocabRoutes from './routes/vocab';
-// Auth and progress routes will be imported in later phases
+import authRoutes from './routes/auth';
+import { getSession, getUserById } from './db/queries';
+import { getSessionFromCookie } from './utils/auth';
+// Progress routes will be imported in Phase 5
 
 type Bindings = {
   DB: D1Database;
@@ -48,33 +51,59 @@ app.get('/health', (c) => {
 });
 
 // ============================================
-// AUTHENTICATION MIDDLEWARE (Stub for Phase 4)
+// AUTHENTICATION MIDDLEWARE
 // ============================================
-// This middleware will be fully implemented in Phase 4
-// For now, it's a placeholder to allow vocab routes to work
+// This middleware validates session and sets user context
+// Auth routes (/api/auth/*) are excluded from this middleware
 app.use('/api/*', async (c, next) => {
-  // TODO: In Phase 4, implement:
-  // 1. Extract session cookie
-  // 2. Validate session
-  // 3. Set userId and userRole in context
+  // Skip auth check for auth routes
+  if (c.req.path.startsWith('/api/auth')) {
+    return next();
+  }
 
-  // Temporary stub - allows all requests
-  // In production, this should validate sessions
-  c.set('userId', 1); // Demo teacher ID
-  c.set('userRole', 'teacher'); // Demo role
+  try {
+    // Extract session cookie
+    const cookieHeader = c.req.header('Cookie');
+    const sessionId = getSessionFromCookie(cookieHeader);
 
-  await next();
+    if (!sessionId) {
+      return c.json({ success: false, error: 'Authentication required' }, 401);
+    }
+
+    // Validate session
+    const session = await getSession(c.env.DB, sessionId);
+
+    if (!session) {
+      return c.json({ success: false, error: 'Session expired or invalid' }, 401);
+    }
+
+    // Get user
+    const user = await getUserById(c.env.DB, session.user_id);
+
+    if (!user) {
+      return c.json({ success: false, error: 'User not found' }, 401);
+    }
+
+    // Set user context
+    c.set('userId', user.id);
+    c.set('userRole', user.role);
+
+    await next();
+  } catch (error) {
+    console.error('Auth middleware error:', error);
+    return c.json({ success: false, error: 'Authentication failed' }, 401);
+  }
 });
 
 // ============================================
 // ROUTES
 // ============================================
 
+// Auth routes (must be before middleware)
+app.route('/api/auth', authRoutes);
+
 // Vocab routes
 app.route('/api/vocab', vocabRoutes);
-
-// Auth routes (Phase 4)
-// app.route('/api/auth', authRoutes);
 
 // Progress routes (Phase 5)
 // app.route('/api/progress', progressRoutes);
