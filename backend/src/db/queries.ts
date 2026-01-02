@@ -173,6 +173,13 @@ export async function getAllStudents(db: D1Database): Promise<User[]> {
   return result.results || [];
 }
 
+export async function getAllUsers(db: D1Database): Promise<User[]> {
+  const result = await db
+    .prepare('SELECT * FROM users WHERE is_active = 1 ORDER BY name')
+    .all<User>();
+  return result.results || [];
+}
+
 export async function updateUser(
   db: D1Database,
   id: number,
@@ -725,4 +732,12 @@ export async function getStudentProgressSummary(
     .bind(userId)
     .first();
   return result;
+}
+
+// Alias for compatibility
+export async function getProgressSummary(
+  db: D1Database,
+  userId: number
+): Promise<any> {
+  return getStudentProgressSummary(db, userId);
 }
