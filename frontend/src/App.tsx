@@ -18,6 +18,7 @@ import Progress from './pages/Progress';
 import Games from './pages/Games';
 import WordMatchGame from './pages/games/WordMatchGame';
 import SpeedQuizGame from './pages/games/SpeedQuizGame';
+import Analytics from './pages/Analytics';
 import './App.css';
 
 function AppContent() {
@@ -124,9 +125,14 @@ function AppContent() {
             }
           />
 
-          {/* Phase 5C: Progress tracking & gamification */}
-          {/* <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} /> */}
-          {/* <Route path="/analytics" element={<ProtectedRoute requireRole="teacher"><Analytics /></ProtectedRoute>} /> */}
+          <Route
+            path="/analytics"
+            element={
+              <ProtectedRoute requireRole="teacher">
+                <Analytics />
+              </ProtectedRoute>
+            }
+          />
 
           {/* 404 fallback */}
           <Route
