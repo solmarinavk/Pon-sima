@@ -391,31 +391,93 @@ export const assignmentAPI = {
 };
 
 // ============================================
-// PROGRESS API (Phase 5C - Stubs for now)
+// PROGRESS API - Gamification & Progress
 // ============================================
+
+export interface Badge {
+  id: number;
+  user_id: number;
+  badge_type: string;
+  awarded_at: string;
+}
+
+export interface GameScore {
+  id: number;
+  user_id: number;
+  game_type: string;
+  score: number;
+  time_seconds?: number;
+  difficulty?: string;
+  metadata?: string;
+  played_at: string;
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  user_id: number;
+  username: string;
+  name: string;
+  total_points: number;
+  current_streak: number;
+  level?: string;
+}
 
 export const progressAPI = {
   async getMyProgress(): Promise<UserProgress[]> {
-    // TODO: Implement in Phase 5
     return request<UserProgress[]>('/api/progress');
   },
 
-  async updateProgress(vocabId: number, data: {
-    status: 'new' | 'learning' | 'learned' | 'difficult';
-    times_reviewed?: number;
-    times_correct?: number;
-    times_incorrect?: number;
-  }): Promise<UserProgress> {
-    // TODO: Implement in Phase 5
-    return request<UserProgress>(`/api/progress/${vocabId}`, {
+  async getSummary(): Promise<ProgressSummary> {
+    return request<ProgressSummary>('/api/progress/summary');
+  },
+
+  async updateProgress(
+    vocabId: number,
+    correct: boolean,
+    difficulty: string
+  ): Promise<{
+    progress: UserProgress;
+    points_earned: number;
+    total_points: number;
+    current_streak: number;
+  }> {
+    return request<any>(`/api/progress/${vocabId}`, {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify({ correct, difficulty }),
     });
   },
 
-  async getSummary(): Promise<ProgressSummary> {
-    // TODO: Implement in Phase 5
-    return request<ProgressSummary>('/api/progress/summary');
+  async getMyBadges(): Promise<Badge[]> {
+    return request<Badge[]>('/api/progress/badges');
+  },
+
+  async getPointsLeaderboard(limit: number = 10): Promise<LeaderboardEntry[]> {
+    return request<LeaderboardEntry[]>(`/api/progress/leaderboard/points?limit=${limit}`);
+  },
+
+  async getStreaksLeaderboard(limit: number = 10): Promise<LeaderboardEntry[]> {
+    return request<LeaderboardEntry[]>(`/api/progress/leaderboard/streaks?limit=${limit}`);
+  },
+
+  async getGameLeaderboard(gameType: string, limit: number = 10): Promise<any[]> {
+    return request<any[]>(`/api/progress/leaderboard/game/${gameType}?limit=${limit}`);
+  },
+
+  async saveGameScore(data: {
+    game_type: string;
+    score: number;
+    time_seconds?: number;
+    difficulty?: string;
+    metadata?: string;
+  }): Promise<{
+    game_score: GameScore;
+    points_earned: number;
+    total_points: number;
+  }> {
+    return request<any>('/api/progress/game-score', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
   },
 };
 

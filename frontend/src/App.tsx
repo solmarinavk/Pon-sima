@@ -14,6 +14,7 @@ import FlashcardsPage from './pages/FlashcardsPage';
 import ManageVocab from './pages/ManageVocab';
 import Assignments from './pages/Assignments';
 import CreateAssignment from './pages/CreateAssignment';
+import Progress from './pages/Progress';
 import './App.css';
 
 function AppContent() {
@@ -59,6 +60,16 @@ function AppContent() {
             element={
               <ProtectedRoute>
                 <Assignments />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Progress route (students only) */}
+          <Route
+            path="/progress"
+            element={
+              <ProtectedRoute>
+                <Progress />
               </ProtectedRoute>
             }
           />
