@@ -12,6 +12,8 @@ import Register from './pages/Register';
 import VocabularyList from './pages/VocabularyList';
 import FlashcardsPage from './pages/FlashcardsPage';
 import ManageVocab from './pages/ManageVocab';
+import Assignments from './pages/Assignments';
+import CreateAssignment from './pages/CreateAssignment';
 import './App.css';
 
 function AppContent() {
@@ -51,6 +53,16 @@ function AppContent() {
             }
           />
 
+          {/* Assignment routes (both roles) */}
+          <Route
+            path="/assignments"
+            element={
+              <ProtectedRoute>
+                <Assignments />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Teacher-only routes */}
           <Route
             path="/manage"
@@ -61,7 +73,16 @@ function AppContent() {
             }
           />
 
-          {/* Phase 5: Progress tracking */}
+          <Route
+            path="/assignments/create"
+            element={
+              <ProtectedRoute requireRole="teacher">
+                <CreateAssignment />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Phase 5C: Progress tracking & gamification */}
           {/* <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} /> */}
           {/* <Route path="/analytics" element={<ProtectedRoute requireRole="teacher"><Analytics /></ProtectedRoute>} /> */}
 

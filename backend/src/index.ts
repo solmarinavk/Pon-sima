@@ -8,9 +8,10 @@ import { logger } from 'hono/logger';
 import vocabRoutes from './routes/vocab';
 import authRoutes from './routes/auth';
 import adminRoutes from './routes/admin';
+import assignmentRoutes from './routes/assignments';
 import { getSession, getUserById } from './db/queries';
 import { getSessionFromCookie } from './utils/auth';
-// Progress routes will be imported in Phase 5
+// Progress routes will be imported in Phase 5C
 
 type Bindings = {
   DB: D1Database;
@@ -112,10 +113,13 @@ app.route('/api/auth', authRoutes);
 // Admin routes (teacher-only, requires auth)
 app.route('/api/admin', adminRoutes);
 
+// Assignment routes (requires auth)
+app.route('/api/assignments', assignmentRoutes);
+
 // Vocab routes
 app.route('/api/vocab', vocabRoutes);
 
-// Progress routes (Phase 5)
+// Progress routes (Phase 5C)
 // app.route('/api/progress', progressRoutes);
 
 // ============================================

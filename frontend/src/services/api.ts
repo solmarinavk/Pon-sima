@@ -111,6 +111,40 @@ export interface ProgressSummary {
   total_incorrect: number;
 }
 
+export interface Assignment {
+  id: number;
+  title: string;
+  description?: string;
+  type: 'vocabulary' | 'quiz' | 'writing' | 'listening' | 'game';
+  difficulty?: string;
+  points: number;
+  max_attempts: number;
+  time_limit_minutes?: number;
+  config?: string;
+  due_date?: string;
+  assigned_to: string;
+  created_by: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AssignmentSubmission {
+  id: number;
+  assignment_id: number;
+  user_id: number;
+  answers?: string;
+  score?: number;
+  completed: number;
+  attempt_number: number;
+  auto_feedback?: string;
+  teacher_feedback?: string;
+  started_at?: string;
+  submitted_at?: string;
+  graded_at?: string;
+  student_name?: string;
+  student_username?: string;
+}
+
 // ============================================
 // AUTH API
 // ============================================
@@ -278,7 +312,86 @@ export const vocabAPI = {
 };
 
 // ============================================
-// PROGRESS API (Phase 5 - Stubs for now)
+// ASSIGNMENT API
+// ============================================
+
+export const assignmentAPI = {
+  // Teacher methods
+  async create(data: {
+    title: string;
+    description?: string;
+    type: 'vocabulary' | 'quiz' | 'writing' | 'listening' | 'game';
+    difficulty?: string;
+    points?: number;
+    max_attempts?: number;
+    time_limit_minutes?: number;
+    config?: string;
+    due_date?: string;
+    assigned_to?: string;
+  }): Promise<{ assignment: Assignment; message: string }> {
+    return request<{ assignment: Assignment; message: string }>('/api/assignments', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  async getAll(): Promise<Assignment[]> {
+    return request<Assignment[]>('/api/assignments');
+  },
+
+  async getById(id: number): Promise<Assignment> {
+    return request<Assignment>(`/api/assignments/${id}`);
+  },
+
+  async update(id: number, data: Partial<Assignment>): Promise<{ assignment: Assignment; message: string }> {
+    return request<{ assignment: Assignment; message: string }>(`/api/assignments/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  },
+
+  async delete(id: number): Promise<void> {
+    return request<void>(`/api/assignments/${id}`, {
+      method: 'DELETE',
+    });
+  },
+
+  async getSubmissions(assignmentId: number): Promise<AssignmentSubmission[]> {
+    return request<AssignmentSubmission[]>(`/api/assignments/${assignmentId}/submissions`);
+  },
+
+  // Student methods
+  async submit(assignmentId: number, data: {
+    answers: string;
+    score?: number;
+    completed: boolean;
+  }): Promise<{ submission: AssignmentSubmission; message: string }> {
+    return request<{ submission: AssignmentSubmission; message: string }>(`/api/assignments/${assignmentId}/submit`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  async getMySubmissions(assignmentId: number): Promise<AssignmentSubmission[]> {
+    return request<AssignmentSubmission[]>(`/api/assignments/${assignmentId}/my-submissions`);
+  },
+
+  // Shared - update submission (teacher feedback or student update)
+  async updateSubmission(submissionId: number, data: {
+    teacher_feedback?: string;
+    score?: number;
+    answers?: string;
+    completed?: boolean;
+  }): Promise<{ submission: AssignmentSubmission; message: string }> {
+    return request<{ submission: AssignmentSubmission; message: string }>(`/api/assignments/submissions/${submissionId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  },
+};
+
+// ============================================
+// PROGRESS API (Phase 5C - Stubs for now)
 // ============================================
 
 export const progressAPI = {

@@ -23,6 +23,12 @@ export default function Navbar({ userRole, userName, onLogout }: NavbarProps) {
             Vocabulary
           </Link>
 
+          {userRole && (
+            <Link to="/assignments" className="nav-link">
+              {userRole === 'teacher' ? 'Assignments' : 'My Tasks'}
+            </Link>
+          )}
+
           {userRole === 'student' && (
             <>
               <Link to="/flashcards" className="nav-link">
