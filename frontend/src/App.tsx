@@ -15,6 +15,9 @@ import ManageVocab from './pages/ManageVocab';
 import Assignments from './pages/Assignments';
 import CreateAssignment from './pages/CreateAssignment';
 import Progress from './pages/Progress';
+import Games from './pages/Games';
+import WordMatchGame from './pages/games/WordMatchGame';
+import SpeedQuizGame from './pages/games/SpeedQuizGame';
 import './App.css';
 
 function AppContent() {
@@ -70,6 +73,34 @@ function AppContent() {
             element={
               <ProtectedRoute>
                 <Progress />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Games routes (students only) */}
+          <Route
+            path="/games"
+            element={
+              <ProtectedRoute>
+                <Games />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/games/word-match"
+            element={
+              <ProtectedRoute>
+                <WordMatchGame />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/games/speed-quiz"
+            element={
+              <ProtectedRoute>
+                <SpeedQuizGame />
               </ProtectedRoute>
             }
           />

@@ -34,6 +34,9 @@ export default function Navbar({ userRole, userName, onLogout }: NavbarProps) {
               <Link to="/flashcards" className="nav-link">
                 Flashcards
               </Link>
+              <Link to="/games" className="nav-link">
+                Games
+              </Link>
               <Link to="/progress" className="nav-link">
                 My Progress
               </Link>
