@@ -609,6 +609,173 @@ export async function getAssignmentsForUser(
   return result.results || [];
 }
 
+export async function getAssignmentById(
+  db: D1Database,
+  id: number
+): Promise<Assignment | null> {
+  const assignment = await db
+    .prepare('SELECT * FROM assignments WHERE id = ?')
+    .bind(id)
+    .first<Assignment>();
+  return assignment;
+}
+
+export async function updateAssignment(
+  db: D1Database,
+  id: number,
+  data: Partial<Assignment>
+): Promise<Assignment | null> {
+  const fields: string[] = [];
+  const values: any[] = [];
+
+  if (data.title !== undefined) {
+    fields.push('title = ?');
+    values.push(data.title);
+  }
+  if (data.description !== undefined) {
+    fields.push('description = ?');
+    values.push(data.description);
+  }
+  if (data.assignment_type !== undefined) {
+    fields.push('assignment_type = ?');
+    values.push(data.assignment_type);
+  }
+  if (data.difficulty !== undefined) {
+    fields.push('difficulty = ?');
+    values.push(data.difficulty);
+  }
+  if (data.max_points !== undefined) {
+    fields.push('max_points = ?');
+    values.push(data.max_points);
+  }
+  if (data.due_date !== undefined) {
+    fields.push('due_date = ?');
+    values.push(data.due_date);
+  }
+  if (data.assigned_to !== undefined) {
+    fields.push('assigned_to = ?');
+    values.push(data.assigned_to);
+  }
+  if (data.max_attempts !== undefined) {
+    fields.push('max_attempts = ?');
+    values.push(data.max_attempts);
+  }
+
+  if (fields.length === 0) {
+    return getAssignmentById(db, id);
+  }
+
+  fields.push('updated_at = CURRENT_TIMESTAMP');
+  values.push(id);
+
+  const result = await db
+    .prepare(
+      `UPDATE assignments SET ${fields.join(', ')} WHERE id = ? RETURNING *`
+    )
+    .bind(...values)
+    .first<Assignment>();
+
+  return result;
+}
+
+export async function deleteAssignment(
+  db: D1Database,
+  id: number
+): Promise<boolean> {
+  const result = await db
+    .prepare('DELETE FROM assignments WHERE id = ?')
+    .bind(id)
+    .run();
+  return result.success;
+}
+
+// ============================================
+// ASSIGNMENT SUBMISSION QUERIES
+// ============================================
+
+export async function createSubmission(
+  db: D1Database,
+  assignmentId: number,
+  userId: number,
+  submissionData: string,
+  pointsEarned: number,
+  attemptNumber: number
+): Promise<any> {
+  const result = await db
+    .prepare(
+      `INSERT INTO assignment_submissions
+       (assignment_id, user_id, submission_data, points_earned, attempt_number)
+       VALUES (?, ?, ?, ?, ?)
+       RETURNING *`
+    )
+    .bind(assignmentId, userId, submissionData, pointsEarned, attemptNumber)
+    .first();
+  return result;
+}
+
+export async function getSubmissionsByAssignment(
+  db: D1Database,
+  assignmentId: number
+): Promise<any[]> {
+  const result = await db
+    .prepare(
+      `SELECT s.*, u.name as user_name, u.username
+       FROM assignment_submissions s
+       JOIN users u ON s.user_id = u.id
+       WHERE s.assignment_id = ?
+       ORDER BY s.submitted_at DESC`
+    )
+    .bind(assignmentId)
+    .all();
+  return result.results || [];
+}
+
+export async function getSubmissionsByUser(
+  db: D1Database,
+  userId: number
+): Promise<any[]> {
+  const result = await db
+    .prepare(
+      `SELECT s.*, a.title as assignment_title
+       FROM assignment_submissions s
+       JOIN assignments a ON s.assignment_id = a.id
+       WHERE s.user_id = ?
+       ORDER BY s.submitted_at DESC`
+    )
+    .bind(userId)
+    .all();
+  return result.results || [];
+}
+
+export async function getSubmissionById(
+  db: D1Database,
+  id: number
+): Promise<any> {
+  const submission = await db
+    .prepare('SELECT * FROM assignment_submissions WHERE id = ?')
+    .bind(id)
+    .first();
+  return submission;
+}
+
+export async function updateSubmission(
+  db: D1Database,
+  id: number,
+  pointsEarned: number,
+  feedback?: string
+): Promise<any> {
+  const result = await db
+    .prepare(
+      `UPDATE assignment_submissions
+       SET points_earned = ?, feedback = ?, updated_at = CURRENT_TIMESTAMP
+       WHERE id = ?
+       RETURNING *`
+    )
+    .bind(pointsEarned, feedback || null, id)
+    .first();
+  return result;
+}
+
 // ============================================
 // BADGE QUERIES
 // ============================================
