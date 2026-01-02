@@ -60,39 +60,39 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="features-grid" style={{ marginTop: '4rem' }}>
-        <div className="feature-card" style={{ borderTop: '4px solid #FF6B6B' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📖</div>
+      <div className="features-grid">
+        <div className="feature-card-modern coral fade-in">
+          <div className="icon">📖</div>
           <h3>Aprendizaje Contextual</h3>
           <p>Aprende palabras con ejemplos del mundo real y contexto de uso auténtico</p>
         </div>
 
-        <div className="feature-card" style={{ borderTop: '4px solid #4ECDC4' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎴</div>
+        <div className="feature-card-modern turquoise fade-in" style={{ animationDelay: '100ms' }}>
+          <div className="icon">🎴</div>
           <h3>Flashcards Inteligentes</h3>
           <p>Practica con flashcards interactivas y sigue tu progreso en tiempo real</p>
         </div>
 
-        <div className="feature-card" style={{ borderTop: '4px solid #FFE66D' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎮</div>
+        <div className="feature-card-modern yellow fade-in" style={{ animationDelay: '200ms' }}>
+          <div className="icon">🎮</div>
           <h3>Juegos Educativos</h3>
           <p>Word Match, Speed Quiz y más juegos divertidos para reforzar tu aprendizaje</p>
         </div>
 
-        <div className="feature-card" style={{ borderTop: '4px solid #A8DADC' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📊</div>
+        <div className="feature-card-modern purple fade-in" style={{ animationDelay: '300ms' }}>
+          <div className="icon">📊</div>
           <h3>Seguimiento de Progreso</h3>
           <p>Gana puntos, badges y mantén rachas. Compite en el leaderboard con tus compañeros</p>
         </div>
 
-        <div className="feature-card" style={{ borderTop: '4px solid #FF6B6B' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📝</div>
+        <div className="feature-card-modern pink fade-in" style={{ animationDelay: '400ms' }}>
+          <div className="icon">📝</div>
           <h3>Tareas Asignadas</h3>
           <p>Completa tareas con fechas límite y recibe feedback de tu profesora</p>
         </div>
 
-        <div className="feature-card" style={{ borderTop: '4px solid #4ECDC4' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>👩‍🏫</div>
+        <div className="feature-card-modern blue fade-in" style={{ animationDelay: '500ms' }}>
+          <div className="icon">👩‍🏫</div>
           <h3>Dashboard para Profesores</h3>
           <p>Silvana puede crear vocabulario, asignar tareas y ver analytics detallados</p>
         </div>
