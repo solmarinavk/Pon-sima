@@ -15,7 +15,7 @@ export default function Navbar({ userRole, userName, onLogout }: NavbarProps) {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-brand">
-          Vocab Platform
+          🌟 Spanish with Silvana
         </Link>
 
         <div className="navbar-links">

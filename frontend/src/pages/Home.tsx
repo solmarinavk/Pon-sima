@@ -1,48 +1,121 @@
 // ============================================
-// HOME PAGE - Landing page
+// HOME PAGE - Spanish with Silvana Landing Page
 // ============================================
 
 import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 export default function Home() {
+  const { user } = useAuth();
+
   return (
     <div className="page-container">
       <div className="home-hero">
-        <h1>Learn Spanish Vocabulary</h1>
-        <p className="subtitle">
-          Master Spanish words with contextual examples and smart flashcards
+        <h1 style={{
+          fontSize: '3.5rem',
+          background: 'linear-gradient(135deg, #FF6B6B, #4ECDC4)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          marginBottom: '1rem'
+        }}>
+          ¡Aprende Español con Silvana! 🌟
+        </h1>
+        <h2 style={{ fontSize: '2rem', color: '#374151', marginBottom: '1rem' }}>
+          Spanish with Silvana
+        </h2>
+        <p className="subtitle" style={{ fontSize: '1.25rem', color: '#6B7280' }}>
+          Domina el vocabulario español con ejemplos contextuales, flashcards inteligentes,
+          juegos interactivos y seguimiento de progreso personalizado
         </p>
 
-        <div className="home-actions">
+        <div className="home-actions" style={{ marginTop: '2rem' }}>
           <Link to="/vocabulary" className="btn-primary btn-large">
-            Browse Vocabulary
+            📚 Explorar Vocabulario
           </Link>
-          <Link to="/flashcards" className="btn-secondary btn-large">
-            Start Practicing
-          </Link>
+          {user ? (
+            user.role === 'student' ? (
+              <>
+                <Link to="/games" className="btn-secondary btn-large">
+                  🎮 Jugar Ahora
+                </Link>
+                <Link to="/flashcards" className="btn-secondary btn-large">
+                  🎯 Practicar
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/manage" className="btn-secondary btn-large">
+                  ✏️ Gestionar Vocabulario
+                </Link>
+                <Link to="/analytics" className="btn-secondary btn-large">
+                  📊 Ver Analytics
+                </Link>
+              </>
+            )
+          ) : (
+            <Link to="/login" className="btn-secondary btn-large">
+              🚀 Comenzar Ahora
+            </Link>
+          )}
         </div>
       </div>
 
-      <div className="features-grid">
-        <div className="feature-card">
-          <h3>Contextual Learning</h3>
-          <p>Learn words with real-world examples and usage context</p>
+      <div className="features-grid" style={{ marginTop: '4rem' }}>
+        <div className="feature-card" style={{ borderTop: '4px solid #FF6B6B' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📖</div>
+          <h3>Aprendizaje Contextual</h3>
+          <p>Aprende palabras con ejemplos del mundo real y contexto de uso auténtico</p>
         </div>
 
-        <div className="feature-card">
-          <h3>Smart Flashcards</h3>
-          <p>Practice with interactive flashcards and track your progress</p>
+        <div className="feature-card" style={{ borderTop: '4px solid #4ECDC4' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎴</div>
+          <h3>Flashcards Inteligentes</h3>
+          <p>Practica con flashcards interactivas y sigue tu progreso en tiempo real</p>
         </div>
 
-        <div className="feature-card">
-          <h3>Progress Tracking</h3>
-          <p>Monitor your learning journey and identify areas to improve</p>
+        <div className="feature-card" style={{ borderTop: '4px solid #FFE66D' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎮</div>
+          <h3>Juegos Educativos</h3>
+          <p>Word Match, Speed Quiz y más juegos divertidos para reforzar tu aprendizaje</p>
         </div>
 
-        <div className="feature-card">
-          <h3>Teacher Dashboard</h3>
-          <p>Teachers can create vocabulary and view student analytics</p>
+        <div className="feature-card" style={{ borderTop: '4px solid #A8DADC' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📊</div>
+          <h3>Seguimiento de Progreso</h3>
+          <p>Gana puntos, badges y mantén rachas. Compite en el leaderboard con tus compañeros</p>
         </div>
+
+        <div className="feature-card" style={{ borderTop: '4px solid #FF6B6B' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📝</div>
+          <h3>Tareas Asignadas</h3>
+          <p>Completa tareas con fechas límite y recibe feedback de tu profesora</p>
+        </div>
+
+        <div className="feature-card" style={{ borderTop: '4px solid #4ECDC4' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>👩‍🏫</div>
+          <h3>Dashboard para Profesores</h3>
+          <p>Silvana puede crear vocabulario, asignar tareas y ver analytics detallados</p>
+        </div>
+      </div>
+
+      <div style={{
+        textAlign: 'center',
+        marginTop: '4rem',
+        padding: '3rem',
+        background: 'linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1))',
+        borderRadius: '16px'
+      }}>
+        <h2 style={{ fontSize: '2rem', marginBottom: '1rem', color: '#1F2937' }}>
+          🎯 ¿Listo para mejorar tu español?
+        </h2>
+        <p style={{ fontSize: '1.25rem', color: '#6B7280', marginBottom: '2rem' }}>
+          Únete a Spanish with Silvana y comienza tu viaje de aprendizaje hoy
+        </p>
+        {!user && (
+          <Link to="/login" className="btn-primary btn-large">
+            Iniciar Sesión
+          </Link>
+        )}
       </div>
     </div>
   );
