@@ -12,6 +12,7 @@ import Register from './pages/Register';
 import VocabularyList from './pages/VocabularyList';
 import FlashcardsPage from './pages/FlashcardsPage';
 import ManageVocab from './pages/ManageVocab';
+import ManageUsers from './pages/ManageUsers';
 import Assignments from './pages/Assignments';
 import CreateAssignment from './pages/CreateAssignment';
 import Progress from './pages/Progress';
@@ -112,6 +113,15 @@ function AppContent() {
             element={
               <ProtectedRoute requireRole="teacher">
                 <ManageVocab />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/manage-users"
+            element={
+              <ProtectedRoute requireRole="teacher">
+                <ManageUsers />
               </ProtectedRoute>
             }
           />

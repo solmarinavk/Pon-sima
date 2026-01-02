@@ -48,6 +48,9 @@ export default function Navbar({ userRole, userName, onLogout }: NavbarProps) {
               <Link to="/manage" className="nav-link">
                 Manage Vocab
               </Link>
+              <Link to="/manage-users" className="nav-link">
+                Manage Users
+              </Link>
               <Link to="/analytics" className="nav-link">
                 Analytics
               </Link>

@@ -13,17 +13,16 @@ export default function Home() {
       <div className="home-hero">
         <h1 style={{
           fontSize: '3.5rem',
-          background: 'linear-gradient(135deg, #FF6B6B, #4ECDC4)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
+          color: 'var(--color-primary)',
+          fontWeight: '800',
           marginBottom: '1rem'
         }}>
           ¡Aprende Español con Silvana! 🌟
         </h1>
-        <h2 style={{ fontSize: '2rem', color: '#374151', marginBottom: '1rem' }}>
+        <h2 style={{ fontSize: '2rem', color: 'var(--color-text)', marginBottom: '1rem', fontWeight: '600' }}>
           Spanish with Silvana
         </h2>
-        <p className="subtitle" style={{ fontSize: '1.25rem', color: '#6B7280' }}>
+        <p className="subtitle" style={{ fontSize: '1.25rem', color: 'var(--color-text-secondary)', lineHeight: '1.6' }}>
           Domina el vocabulario español con ejemplos contextuales, flashcards inteligentes,
           juegos interactivos y seguimiento de progreso personalizado
         </p>
@@ -61,58 +60,100 @@ export default function Home() {
       </div>
 
       <div className="features-grid">
-        <div className="feature-card-modern coral fade-in">
-          <div className="icon">📖</div>
-          <h3>Aprendizaje Contextual</h3>
-          <p>Aprende palabras con ejemplos del mundo real y contexto de uso auténtico</p>
-        </div>
+        <Link to="/vocabulary" className="card card-interactive fade-in" style={{ textDecoration: 'none' }}>
+          <div className="icon" style={{ fontSize: '3rem', marginBottom: '1rem' }}>📖</div>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
+            Aprendizaje Contextual
+          </h3>
+          <p style={{ color: 'var(--color-text-secondary)', lineHeight: '1.6', marginBottom: '1rem' }}>
+            Aprende palabras con ejemplos del mundo real y contexto de uso auténtico. Cada término incluye definiciones claras, ejemplos de uso y contexto cultural.
+          </p>
+          <span className="btn btn-sm btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+            Explorar Vocabulario <span>→</span>
+          </span>
+        </Link>
 
-        <div className="feature-card-modern turquoise fade-in" style={{ animationDelay: '100ms' }}>
-          <div className="icon">🎴</div>
-          <h3>Flashcards Inteligentes</h3>
-          <p>Practica con flashcards interactivas y sigue tu progreso en tiempo real</p>
-        </div>
+        <Link to="/flashcards" className="card card-interactive fade-in" style={{ textDecoration: 'none', animationDelay: '100ms' }}>
+          <div className="icon" style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎴</div>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
+            Flashcards Inteligentes
+          </h3>
+          <p style={{ color: 'var(--color-text-secondary)', lineHeight: '1.6', marginBottom: '1rem' }}>
+            Practica con flashcards interactivas que se adaptan a tu nivel. Sistema de repetición espaciada que prioriza las palabras que necesitas repasar.
+          </p>
+          <span className="btn btn-sm btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+            Practicar Ahora <span>→</span>
+          </span>
+        </Link>
 
-        <div className="feature-card-modern yellow fade-in" style={{ animationDelay: '200ms' }}>
-          <div className="icon">🎮</div>
-          <h3>Juegos Educativos</h3>
-          <p>Word Match, Speed Quiz y más juegos divertidos para reforzar tu aprendizaje</p>
-        </div>
+        <Link to="/games" className="card card-interactive fade-in" style={{ textDecoration: 'none', animationDelay: '200ms' }}>
+          <div className="icon" style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎮</div>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
+            Juegos Educativos
+          </h3>
+          <p style={{ color: 'var(--color-text-secondary)', lineHeight: '1.6', marginBottom: '1rem' }}>
+            Word Match, Speed Quiz, Memory Cards y más. Aprende jugando y gana puntos para desbloquear badges exclusivos. ¡Compite con tus compañeros!
+          </p>
+          <span className="btn btn-sm btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+            Jugar Ahora <span>→</span>
+          </span>
+        </Link>
 
-        <div className="feature-card-modern purple fade-in" style={{ animationDelay: '300ms' }}>
-          <div className="icon">📊</div>
-          <h3>Seguimiento de Progreso</h3>
-          <p>Gana puntos, badges y mantén rachas. Compite en el leaderboard con tus compañeros</p>
-        </div>
+        <Link to="/progress" className="card card-interactive fade-in" style={{ textDecoration: 'none', animationDelay: '300ms' }}>
+          <div className="icon" style={{ fontSize: '3rem', marginBottom: '1rem' }}>📊</div>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
+            Seguimiento de Progreso
+          </h3>
+          <p style={{ color: 'var(--color-text-secondary)', lineHeight: '1.6', marginBottom: '1rem' }}>
+            Visualiza tu progreso con gráficos detallados. Gana puntos, desbloquea badges, mantén rachas diarias y sube en el ranking de tu clase.
+          </p>
+          <span className="btn btn-sm btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+            Ver Mi Progreso <span>→</span>
+          </span>
+        </Link>
 
-        <div className="feature-card-modern pink fade-in" style={{ animationDelay: '400ms' }}>
-          <div className="icon">📝</div>
-          <h3>Tareas Asignadas</h3>
-          <p>Completa tareas con fechas límite y recibe feedback de tu profesora</p>
-        </div>
+        <Link to="/assignments" className="card card-interactive fade-in" style={{ textDecoration: 'none', animationDelay: '400ms' }}>
+          <div className="icon" style={{ fontSize: '3rem', marginBottom: '1rem' }}>📝</div>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
+            Tareas Asignadas
+          </h3>
+          <p style={{ color: 'var(--color-text-secondary)', lineHeight: '1.6', marginBottom: '1rem' }}>
+            Completa tareas con fechas límite, recibe feedback personalizado de tu profesora y mejora continuamente. Cada tarea suma a tu progreso total.
+          </p>
+          <span className="btn btn-sm btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+            Ver Tareas <span>→</span>
+          </span>
+        </Link>
 
-        <div className="feature-card-modern blue fade-in" style={{ animationDelay: '500ms' }}>
-          <div className="icon">👩‍🏫</div>
-          <h3>Dashboard para Profesores</h3>
-          <p>Silvana puede crear vocabulario, asignar tareas y ver analytics detallados</p>
-        </div>
+        <Link to="/analytics" className="card card-interactive fade-in" style={{ textDecoration: 'none', animationDelay: '500ms' }}>
+          <div className="icon" style={{ fontSize: '3rem', marginBottom: '1rem' }}>👩‍🏫</div>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
+            Dashboard para Profesores
+          </h3>
+          <p style={{ color: 'var(--color-text-secondary)', lineHeight: '1.6', marginBottom: '1rem' }}>
+            Herramientas profesionales para crear vocabulario personalizado, asignar tareas, gestionar estudiantes y analizar el progreso de la clase.
+          </p>
+          <span className="btn btn-sm btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+            Ver Analytics <span>→</span>
+          </span>
+        </Link>
       </div>
 
-      <div style={{
+      <div className="card" style={{
         textAlign: 'center',
         marginTop: '4rem',
         padding: '3rem',
-        background: 'linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1))',
-        borderRadius: '16px'
+        background: 'var(--color-primary-bg)',
+        border: '2px solid var(--color-primary-light)'
       }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '1rem', color: '#1F2937' }}>
+        <h2 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'var(--color-text)', fontWeight: '700' }}>
           🎯 ¿Listo para mejorar tu español?
         </h2>
-        <p style={{ fontSize: '1.25rem', color: '#6B7280', marginBottom: '2rem' }}>
-          Únete a Spanish with Silvana y comienza tu viaje de aprendizaje hoy
+        <p style={{ fontSize: '1.25rem', color: 'var(--color-text-secondary)', marginBottom: '2rem', lineHeight: '1.6' }}>
+          Únete a Spanish with Silvana y comienza tu viaje de aprendizaje hoy. Aprende vocabulario de forma divertida y efectiva.
         </p>
         {!user && (
-          <Link to="/login" className="btn-primary btn-large">
+          <Link to="/login" className="btn btn-primary btn-large">
             Iniciar Sesión
           </Link>
         )}

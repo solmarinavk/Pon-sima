@@ -53,7 +53,7 @@ export default function Games() {
           <Link
             key={game.id}
             to={`/games/${game.id}`}
-            className={`card-modern game-card-large fade-in`}
+            className={`card card-interactive game-card-large fade-in`}
             style={{
               textDecoration: 'none',
               animationDelay: `${index * 100}ms`,
@@ -87,8 +87,8 @@ export default function Games() {
       </div>
 
       {/* How to Play Section */}
-      <div className="card-accent how-to-play fade-in" style={{ animationDelay: '400ms' }}>
-        <h2 className="text-center" style={{ fontSize: '2rem', marginBottom: '2rem', color: '#2C3E50' }}>
+      <div className="card how-to-play fade-in" style={{ animationDelay: '400ms', background: 'var(--color-bg-paper)', border: '2px solid var(--color-border)' }}>
+        <h2 className="text-center" style={{ fontSize: '2rem', marginBottom: '2rem', color: 'var(--color-text)', fontWeight: '700' }}>
           ¿Cómo Funciona?
         </h2>
         <div className="info-grid-horizontal">
@@ -123,12 +123,12 @@ export default function Games() {
       </div>
 
       {/* Rewards Section */}
-      <div className="rewards-banner">
+      <div className="card rewards-banner" style={{ background: 'var(--color-success-bg)', border: '2px solid var(--color-success)' }}>
         <div className="rewards-content">
           <div className="rewards-icon">🏆</div>
           <div className="rewards-text">
-            <h3>Completa juegos para desbloquear badges exclusivos</h3>
-            <p>Cada juego te acerca más a tu próximo badge y aumenta tu racha diaria</p>
+            <h3 style={{ fontWeight: '700', color: 'var(--color-text)' }}>Completa juegos para desbloquear badges exclusivos</h3>
+            <p style={{ color: 'var(--color-text-secondary)' }}>Cada juego te acerca más a tu próximo badge y aumenta tu racha diaria</p>
           </div>
           <Link to="/progress" className="btn btn-primary">
             Ver Mi Progreso
@@ -242,14 +242,14 @@ export default function Games() {
           width: 60px;
           height: 60px;
           border-radius: 50%;
-          background: linear-gradient(135deg, var(--color-coral), var(--color-pink));
+          background: var(--color-primary);
           color: white;
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 1.75rem;
           font-weight: 800;
-          box-shadow: var(--shadow-coral);
+          box-shadow: var(--shadow-lg);
         }
 
         .step-content h3 {
@@ -272,8 +272,7 @@ export default function Games() {
         /* Rewards Banner */
         .rewards-banner {
           margin-top: var(--spacing-3xl);
-          background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
-          border-radius: var(--radius-2xl);
+          border-radius: var(--radius-lg);
           padding: var(--spacing-2xl);
         }
 
@@ -308,12 +307,13 @@ export default function Games() {
 
         /* Button Color Variants */
         .btn-turquoise {
-          background: linear-gradient(135deg, var(--color-turquoise), var(--color-blue));
+          background: var(--color-primary);
           color: white;
         }
 
         .btn-turquoise:hover {
-          box-shadow: var(--shadow-turquoise);
+          background: var(--color-primary-dark);
+          box-shadow: var(--shadow-lg);
         }
 
         /* Responsive */
