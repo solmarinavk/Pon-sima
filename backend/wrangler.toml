@@ -10,7 +10,7 @@ ENVIRONMENT = "development"
 [[d1_databases]]
 binding = "DB"
 database_name = "vocab-platform-db"
-database_id = "REPLACE_WITH_YOUR_DATABASE_ID"  # Obtener con: wrangler d1 create vocab-platform-db
+database_id = "5727129e-5193-4efe-8255-b40635eb706d"
 
 # R2 Bucket (preparado, no obligatorio en MVP)
 # [[r2_buckets]]
