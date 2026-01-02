@@ -35,21 +35,30 @@
 
   /* Status Colors - Bright & Clear */
   --color-success: #5FD068;
+  --color-success-light: #85E089;
+  --color-success-dark: #3DB043;
   --color-success-bg: #E8F8E9;
 
   --color-warning: #FFA94D;
+  --color-warning-light: #FFBD73;
+  --color-warning-dark: #FF8E1F;
   --color-warning-bg: #FFF4E6;
 
   --color-error: #FF6B6B;
+  --color-error-light: #FF8E8E;
+  --color-error-dark: #FF4757;
   --color-error-bg: #FFE8E8;
 
   --color-info: #54A0FF;
+  --color-info-light: #7AB6FF;
+  --color-info-dark: #2E82FF;
   --color-info-bg: #E7F1FF;
 
   /* Neutral Colors - Softer */
   --color-text: #2D3436;
   --color-text-secondary: #636E72;
   --color-text-light: #B2BEC3;
+  --color-text-disabled: #DFE6E9;
 
   --color-bg: #F8F9FA;
   --color-bg-paper: #FFFFFF;

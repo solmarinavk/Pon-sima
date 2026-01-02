@@ -9,22 +9,22 @@ export default function Register() {
     <div className="page-container">
       <div className="auth-container">
         <div className="auth-card">
-          <h1>Registration Disabled</h1>
-          <p className="subtitle">Only teachers can create student accounts</p>
+          <h1>Registro Deshabilitado</h1>
+          <p className="subtitle">Solo los profesores pueden crear cuentas de estudiantes</p>
 
           <div style={{ padding: '2rem', textAlign: 'center' }}>
             <p>
-              Student accounts are created by Silvana, your teacher.
+              Las cuentas de estudiantes son creadas por Silvana, tu profesora.
               <br />
               <br />
-              If you need an account, please contact your teacher directly.
+              Si necesitas una cuenta, por favor contacta directamente a tu profesora.
             </p>
           </div>
 
           <p className="auth-footer">
-            Already have an account?{' '}
+            ¿Ya tienes una cuenta?{' '}
             <Link to="/login" className="auth-link">
-              Login here
+              Inicia sesión aquí
             </Link>
           </p>
         </div>

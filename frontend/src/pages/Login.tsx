@@ -2,7 +2,7 @@
 // LOGIN PAGE - Professional & Clean
 // ============================================
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
@@ -41,12 +41,12 @@ export default function Login() {
   };
 
   // Load remembered username on component mount
-  useState(() => {
+  useEffect(() => {
     const remembered = localStorage.getItem('rememberedUsername');
     if (remembered) {
       setFormData(prev => ({ ...prev, username: remembered, rememberMe: true }));
     }
-  });
+  }, []);
 
   return (
     <div className="page-container">

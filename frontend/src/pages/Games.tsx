@@ -27,16 +27,6 @@ export default function Games() {
       colorClass: 'yellow',
       time: '5 minutos',
     },
-    {
-      id: 'memory-cards',
-      name: 'Memory Cards',
-      icon: '🧠',
-      description: 'Voltea las cartas para encontrar parejas coincidentes. Pon a prueba tu memoria visual.',
-      difficulty: 'Fácil',
-      points: '5-20 pts',
-      colorClass: 'purple',
-      time: '3 minutos',
-    },
   ];
 
   return (
