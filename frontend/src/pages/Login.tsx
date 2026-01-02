@@ -10,7 +10,7 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: '',
   });
   const [error, setError] = useState('');
@@ -22,7 +22,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      await login(formData.email, formData.password);
+      await login(formData.username, formData.password);
       navigate('/'); // Redirect to home after successful login
     } catch (err: any) {
       setError(err.message || 'Login failed. Please check your credentials.');
@@ -42,14 +42,14 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="username">Username</label>
               <input
-                type="email"
-                id="email"
+                type="text"
+                id="username"
                 required
-                autoComplete="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                autoComplete="username"
+                value={formData.username}
+                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
               />
             </div>
 
@@ -71,10 +71,7 @@ export default function Login() {
           </form>
 
           <p className="auth-footer">
-            Don't have an account?{' '}
-            <Link to="/register" className="auth-link">
-              Register here
-            </Link>
+            Contact your teacher to get an account
           </p>
         </div>
       </div>

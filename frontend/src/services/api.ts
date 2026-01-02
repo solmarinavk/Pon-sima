@@ -51,9 +51,16 @@ async function request<T>(
 
 export interface User {
   id: number;
-  email: string;
+  username: string;
   name: string;
   role: 'student' | 'teacher';
+  level?: string;
+  student_group?: string;
+  is_active: number;
+  total_points: number;
+  current_streak: number;
+  last_activity_date?: string;
+  created_by?: number;
   created_at: string;
   updated_at: string;
 }
@@ -105,36 +112,108 @@ export interface ProgressSummary {
 }
 
 // ============================================
-// AUTH API (Phase 4 - Stubs for now)
+// AUTH API
 // ============================================
 
+interface AuthResponse {
+  user: User;
+  message: string;
+}
+
 export const authAPI = {
-  async login(email: string, password: string): Promise<User> {
-    // TODO: Implement in Phase 4
-    return request<User>('/api/auth/login', {
+  async login(username: string, password: string): Promise<AuthResponse> {
+    return request<AuthResponse>('/api/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
     });
   },
 
-  async register(email: string, password: string, name: string, role: 'student' | 'teacher'): Promise<User> {
-    // TODO: Implement in Phase 4
-    return request<User>('/api/auth/register', {
+  async register(username: string, password: string, name: string, role: 'student' | 'teacher', level?: string, studentGroup?: string): Promise<AuthResponse> {
+    return request<AuthResponse>('/api/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ email, password, name, role }),
+      body: JSON.stringify({ username, password, name, role, level, studentGroup }),
     });
   },
 
   async logout(): Promise<void> {
-    // TODO: Implement in Phase 4
     return request<void>('/api/auth/logout', {
       method: 'POST',
     });
   },
 
   async getCurrentUser(): Promise<User> {
-    // TODO: Implement in Phase 4
     return request<User>('/api/auth/me');
+  },
+};
+
+// ============================================
+// ADMIN API (Teacher only)
+// ============================================
+
+export const adminAPI = {
+  async createUser(data: {
+    username: string;
+    password: string;
+    name: string;
+    role: 'student' | 'teacher';
+    level?: string;
+    studentGroup?: string;
+  }): Promise<User> {
+    return request<User>('/api/admin/users', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  async createUsersInBulk(users: Array<{
+    username: string;
+    password: string;
+    name: string;
+    role: 'student' | 'teacher';
+    level?: string;
+    studentGroup?: string;
+  }>): Promise<{ created: number; failed: number; results: any }> {
+    return request<{ created: number; failed: number; results: any }>('/api/admin/users/bulk', {
+      method: 'POST',
+      body: JSON.stringify({ users }),
+    });
+  },
+
+  async getAllUsers(params?: {
+    includeInactive?: boolean;
+    role?: 'student' | 'teacher';
+    studentGroup?: string;
+  }): Promise<User[]> {
+    const queryParams = new URLSearchParams();
+    if (params?.includeInactive) queryParams.append('includeInactive', 'true');
+    if (params?.role) queryParams.append('role', params.role);
+    if (params?.studentGroup) queryParams.append('studentGroup', params.studentGroup);
+
+    return request<User[]>(`/api/admin/users?${queryParams.toString()}`);
+  },
+
+  async getUser(id: number): Promise<User> {
+    return request<User>(`/api/admin/users/${id}`);
+  },
+
+  async updateUser(id: number, data: Partial<User>): Promise<User> {
+    return request<User>(`/api/admin/users/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  },
+
+  async deactivateUser(id: number): Promise<void> {
+    return request<void>(`/api/admin/users/${id}`, {
+      method: 'DELETE',
+    });
+  },
+
+  async resetPassword(id: number, newPassword: string): Promise<void> {
+    return request<void>(`/api/admin/users/${id}/password`, {
+      method: 'PATCH',
+      body: JSON.stringify({ newPassword }),
+    });
   },
 };
 

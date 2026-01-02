@@ -5,7 +5,7 @@
 import { Hono } from 'hono';
 import {
   createUser,
-  getUserByEmail,
+  getUserByUsername,
   getUserById,
   createSession,
   getSession,
@@ -20,7 +20,6 @@ import {
   createSessionCookie,
   getSessionFromCookie,
   clearSessionCookie,
-  isValidEmail,
   isValidPassword,
 } from '../utils/auth';
 
@@ -37,18 +36,18 @@ const auth = new Hono<{ Bindings: Bindings }>();
 auth.post('/register', async (c) => {
   try {
     const body = await c.req.json();
-    const { email, password, name, role } = body;
+    const { username, password, name, role, level, studentGroup } = body;
 
     // Validation
-    if (!email || !password || !name || !role) {
+    if (!username || !password || !name || !role) {
       return c.json(
-        { success: false, error: 'Email, password, name, and role are required' },
+        { success: false, error: 'Username, password, name, and role are required' },
         400
       );
     }
 
-    if (!isValidEmail(email)) {
-      return c.json({ success: false, error: 'Invalid email format' }, 400);
+    if (username.length < 3) {
+      return c.json({ success: false, error: 'Username must be at least 3 characters' }, 400);
     }
 
     if (!isValidPassword(password)) {
@@ -66,16 +65,25 @@ auth.post('/register', async (c) => {
     }
 
     // Check if user already exists
-    const existingUser = await getUserByEmail(c.env.DB, email);
+    const existingUser = await getUserByUsername(c.env.DB, username);
     if (existingUser) {
-      return c.json({ success: false, error: 'Email already registered' }, 409);
+      return c.json({ success: false, error: 'Username already taken' }, 409);
     }
 
     // Hash password
     const passwordHash = await hashPassword(password);
 
-    // Create user
-    const user = await createUser(c.env.DB, email, passwordHash, name, role);
+    // Create user (with optional fields for students)
+    const user = await createUser(
+      c.env.DB,
+      username,
+      passwordHash,
+      name,
+      role,
+      undefined, // createdBy will be set from admin route
+      level,
+      studentGroup
+    );
 
     if (!user) {
       return c.json({ success: false, error: 'Failed to create user' }, 500);
@@ -119,25 +127,30 @@ auth.post('/register', async (c) => {
 auth.post('/login', async (c) => {
   try {
     const body = await c.req.json();
-    const { email, password } = body;
+    const { username, password } = body;
 
     // Validation
-    if (!email || !password) {
-      return c.json({ success: false, error: 'Email and password are required' }, 400);
+    if (!username || !password) {
+      return c.json({ success: false, error: 'Username and password are required' }, 400);
     }
 
     // Get user
-    const user = await getUserByEmail(c.env.DB, email);
+    const user = await getUserByUsername(c.env.DB, username);
 
     if (!user) {
-      return c.json({ success: false, error: 'Invalid email or password' }, 401);
+      return c.json({ success: false, error: 'Invalid username or password' }, 401);
+    }
+
+    // Check if user is active
+    if (!user.is_active) {
+      return c.json({ success: false, error: 'Account is inactive. Contact your teacher.' }, 403);
     }
 
     // Verify password
     const isValid = await verifyPassword(password, user.password_hash);
 
     if (!isValid) {
-      return c.json({ success: false, error: 'Invalid email or password' }, 401);
+      return c.json({ success: false, error: 'Invalid username or password' }, 401);
     }
 
     // Create session

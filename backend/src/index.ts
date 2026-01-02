@@ -7,6 +7,7 @@ import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import vocabRoutes from './routes/vocab';
 import authRoutes from './routes/auth';
+import adminRoutes from './routes/admin';
 import { getSession, getUserById } from './db/queries';
 import { getSessionFromCookie } from './utils/auth';
 // Progress routes will be imported in Phase 5
@@ -84,9 +85,15 @@ app.use('/api/*', async (c, next) => {
       return c.json({ success: false, error: 'User not found' }, 401);
     }
 
+    // Check if user is active
+    if (!user.is_active) {
+      return c.json({ success: false, error: 'Account is inactive' }, 403);
+    }
+
     // Set user context
     c.set('userId', user.id);
     c.set('userRole', user.role);
+    c.set('user', user); // Store full user object for admin middleware
 
     await next();
   } catch (error) {
@@ -101,6 +108,9 @@ app.use('/api/*', async (c, next) => {
 
 // Auth routes (must be before middleware)
 app.route('/api/auth', authRoutes);
+
+// Admin routes (teacher-only, requires auth)
+app.route('/api/admin', adminRoutes);
 
 // Vocab routes
 app.route('/api/vocab', vocabRoutes);
