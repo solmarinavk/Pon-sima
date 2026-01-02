@@ -1,0 +1,21 @@
+name = "vocab-platform-api"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+# Variables
+[vars]
+ENVIRONMENT = "development"
+
+# D1 Database
+[[d1_databases]]
+binding = "DB"
+database_name = "vocab-platform-db"
+database_id = "REPLACE_WITH_YOUR_DATABASE_ID"  # Obtener con: wrangler d1 create vocab-platform-db
+
+# R2 Bucket (preparado, no obligatorio en MVP)
+# [[r2_buckets]]
+# binding = "BUCKET"
+# bucket_name = "vocab-platform-storage"
+
+# Secrets (configurar con: wrangler secret put JWT_SECRET)
+# JWT_SECRET
